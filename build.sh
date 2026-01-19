@@ -24,5 +24,6 @@ pip install -r datoviz-source/requirements-dev.txt
 echo "Building documentation..."
 cd datoviz-source
 mkdocs build
+cd ..
 
 echo "Documentation built successfully in datoviz-source/site/"

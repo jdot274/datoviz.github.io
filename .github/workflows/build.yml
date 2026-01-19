@@ -43,8 +43,22 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
-          # Copy built documentation to root
-          rm -rf docs gallery guide quickstart reference visuals discussions assets stylesheets search images *.html *.xml *.gz *.inv
+          # Preserve important repository files
+          mkdir -p /tmp/preserve
+          cp -r .github /tmp/preserve/ 2>/dev/null || true
+          cp .gitignore /tmp/preserve/ 2>/dev/null || true
+          cp README.md /tmp/preserve/ 2>/dev/null || true
+          cp build.sh /tmp/preserve/ 2>/dev/null || true
+          cp CNAME /tmp/preserve/ 2>/dev/null || true
+          cp .nojekyll /tmp/preserve/ 2>/dev/null || true
+          
+          # Remove old documentation files
+          git rm -rf . 2>/dev/null || true
+          
+          # Restore preserved files
+          cp -r /tmp/preserve/* . 2>/dev/null || true
+          
+          # Copy new documentation
           cp -r datoviz-source/site/* .
           
           # Configure git
